@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"></script> 
+</head>
+<body>
+    <!-- Feel free to replace the quotes in src with these
+        "/image/coffee.jpg"
+        "/image/cat.jpg"
+        "/image/pig.jpg"
+    -->
+    <img id="img" src="image/cat.jpg" style="height:700px" />
+    <div id="output" style="font-family:courier;font-size:24px;height:300px"></div>
+</body>
+<script>
+    const img = document.getElementById('img');
+    const outp = document.getElementById('output');
+    mobilenet.load().then(model => {
+        model.classify(img).then(predictions => {
+            console.log(predictions);
+            for(let i = 0; i < predictions.length; i++){
+                const probability = (predictions[i].probability * 100).toFixed(2) + "%";
+                outp.innerHTML += "<br/>" + predictions[i].className + " : " + probability;
+            }
+        });
+    });
+</script>
+</html>
